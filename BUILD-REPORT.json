@@ -1,0 +1,20 @@
+{
+  "base": "PULSE-main full attachments",
+  "original_app_sha256": "29ce6722a2b0e43cf1f67880d5be7da3d7857cc34c30730c41ca7737df73abe0",
+  "supabase_configuration_preserved": true,
+  "backend_mutations_performed": false,
+  "visual_cause_note": "Intrinsic SVG sizing guarded; the exact originally observed blue-button defect is not independently reproduced.",
+  "checks": {
+    "duplicate_html_ids": [],
+    "required_elements_present": true,
+    "primary_svg_size_fix": true,
+    "cdn_supabase_preserved": true,
+    "javascript_syntax": "passed (QuickJS parse)",
+    "browser_button_layout": "not verified: BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1255/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disab"
+  },
+  "not_verified": [
+    "Live Supabase auth, storage, RLS and messages",
+    "GitHub upload and Pages deployment",
+    "Original screenshot-specific blue-button reproduction"
+  ]
+}

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080d18"><title>PULSE — На одной волне</title>
+  <link rel="stylesheet" href="style.css?v=d19ef08afc">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<div class="ambient"></div>
+<div id="authView" class="auth-wrap">
+  <div class="auth-card">
+    <div class="brand"><span class="brand-mark pulse-symbol"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M2 17h6l4-10 5 19 5-14 3 5h5"/></svg></span><span>PULSE</span></div>
+    <p class="eyebrow">YOUR SPACE. YOUR PEOPLE.</p>
+    <h1 id="authTitle">Добро пожаловать</h1><p class="muted" id="authSubtitle">Войди, чтобы продолжить общение.</p>
+    <form id="authForm">
+      <label id="nameLabel" class="hidden">Имя пользователя<input id="displayName" autocomplete="nickname" placeholder="Как тебя зовут"></label>
+      <label>Email<input id="email" type="email" autocomplete="email" required placeholder="name@example.com"></label>
+      <label>Пароль<input id="password" type="password" autocomplete="current-password" minlength="6" required placeholder="Минимум 6 символов"></label>
+      <button class="primary wide" type="submit" id="authSubmit">Войти</button>
+    </form>
+    <button class="text-button" id="authToggle">Нет аккаунта? Зарегистрироваться</button>
+    <p class="tiny muted">Продолжая, ты создаёшь аккаунт PULSE.</p>
+    <div id="authError" class="notice hidden"></div>
+  </div>
+</div>
+<div id="appView" class="app hidden">
+  <aside class="sidebar">
+    <a class="brand side-brand" href="#"><span class="brand-mark pulse-symbol"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M2 17h6l4-10 5 19 5-14 3 5h5"/></svg></span><span>PULSE</span></a>
+    <div class="side-label">МЕНЮ</div>
+    <button class="nav active" data-page="feed"><span>⌂</span> Лента</button>
+    <button class="nav" data-page="messages"><span>◌</span> Сообщения <i id="unreadDot" class="dot hidden"></i></button>
+    <button class="nav" data-page="people"><span>◎</span> Люди</button>
+    <div class="side-bottom">
+      <button class="profile-mini" id="myProfileBtn"><div class="avatar" id="sideAvatar">P</div><span><b id="sideName">Профиль</b><small id="sideEmail">Аккаунт</small></span><span class="more">···</span></button>
+      <button class="nav logout" id="logoutBtn"><span>↪</span> Выйти</button>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><div class="eyebrow">SOCIAL NETWORK</div><h2 id="pageTitle">Лента</h2></div><div class="top-actions"><button type="button" class="pulse-theme" id="pulseThemeBtn" aria-label="Сменить тему" title="Сменить тему">☀</button><button type="button" class="primary pulse-compose-shortcut" id="pulseComposeShortcut"><span aria-hidden="true">＋</span> Создать пост</button><span class="online-pill"><i></i> В сети</span><button class="avatar small" aria-label="Открыть профиль" id="topAvatar">P</button></div></header>
+    <section id="feedPage" class="page">
+      <section class="stories-section card">
+        <div class="stories-heading"><div><h3>Истории</h3><p class="muted tiny">Моменты, которые исчезают через 24 часа</p></div><span class="stories-live">● LIVE</span></div>
+        <div id="storiesList" class="stories-list"><div class="stories-loading">Загружаем истории…</div></div>
+      </section>
+      <div class="composer card">
+        <div class="compose-head"><div class="avatar" id="composerAvatar">P</div><textarea id="postText" rows="2" placeholder="Чем поделишься сегодня?"></textarea></div>
+        <div class="compose-foot"><label class="upload-btn">＋ Фото<input type="file" id="postImage" accept="image/*" hidden></label><span id="imageName" class="muted tiny"></span><button class="primary" type="button" id="publishBtn">Опубликовать <span>↗</span></button></div>
+      </div>
+      <div class="section-line"><span>СВЕЖЕЕ</span><span class="muted tiny">Публикации сообщества</span></div>
+      <div id="feedList" class="feed-list"><div class="loading">Загружаем ленту…</div></div>
+    </section>
+    <section id="messagesPage" class="page hidden">
+      <div class="messenger card">
+        <div class="chat-list"><div class="chat-list-head"><h3>Сообщения</h3><span class="tiny muted">ЛИЧНЫЕ</span></div><div id="conversations"><div class="empty-small">Пока нет диалогов.<br>Найди человека во вкладке «Люди».</div></div></div>
+        <div class="chat-room" id="chatRoom"><div class="chat-placeholder"><div class="bubble-icon">◌</div><h3>Твои сообщения</h3><p>Выбери диалог или найди человека, чтобы начать общение.</p></div></div>
+      </div>
+    </section>
+    <section id="peoplePage" class="page hidden">
+      <div class="people-head card"><div><h3>Люди PULSE</h3><p class="muted">Найди знакомых и начни общение.</p></div><input id="peopleSearch" placeholder="Поиск по имени или @username…"></div>
+      <div id="peopleList" class="people-grid"><div class="loading">Загружаем пользователей…</div></div>
+    </section>
+    <section id="profilePage" class="page hidden">
+      <div class="profile-card card"><div class="profile-cover"></div><div class="profile-content"><div class="avatar profile-avatar" id="profileAvatar">P</div><h2 id="profileName">Профиль</h2><p class="muted" id="profileUsername"></p><p class="muted" id="profileEmail"></p><form id="profileForm" class="profile-form"><label>Аватарка<input id="avatarFile" type="file" accept="image/*"></label><small class="field-hint">Изображение до 5 МБ. Поддерживаются JPG, PNG и WebP.</small><label>Уникальный юзернейм<input id="editUsername" maxlength="20" minlength="3" autocomplete="off" placeholder="например, pulse_user" required></label><small class="field-hint">3–20 символов: английские буквы, цифры и _. Ник должен быть свободен.</small><label>Отображаемое имя<input id="editName" maxlength="40" required></label><label>О себе<textarea id="editBio" rows="3" maxlength="180" placeholder="Расскажи немного о себе"></textarea></label><button class="primary">Сохранить профиль</button></form></div></div>
+    </section>
+  </main>
+  <aside class="rightbar"><div class="right-card"><div class="eyebrow">PULSE NOTE</div><h3>Будь на связи.</h3><p>Делись моментами, находи людей и оставайся ближе к своему кругу.</p><div class="pulse-line"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div><div class="right-card tips"><h4>Быстрый старт</h4><p>① Заполни профиль</p><p>② Опубликуй первый пост</p><p>③ Найди человека и напиши ему</p></div><div class="right-footer">PULSE SOCIAL · BETA</div></aside>
+</div>
+<div id="storyViewer" class="story-viewer hidden" role="dialog" aria-modal="true" aria-label="Просмотр истории">
+  <div class="story-viewer-card"><button id="closeStory" class="story-close" aria-label="Закрыть">×</button><div id="storyViewerContent"></div></div>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="app.js?v=d19ef08afc"></script>
+</body></html>
